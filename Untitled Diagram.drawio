@@ -64,7 +64,7 @@
         <mxCell id="7U7vAsr_AXt3HuqYSihi-23" value="reps" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="7U7vAsr_AXt3HuqYSihi-4">
           <mxGeometry y="150" width="200" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="7U7vAsr_AXt3HuqYSihi-24" value="weight" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="7U7vAsr_AXt3HuqYSihi-4">
+        <mxCell id="7U7vAsr_AXt3HuqYSihi-24" value="reps" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="7U7vAsr_AXt3HuqYSihi-4">
           <mxGeometry y="180" width="200" height="30" as="geometry" />
         </mxCell>
       </root>
