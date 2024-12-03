@@ -34,6 +34,9 @@
         <mxCell id="7U7vAsr_AXt3HuqYSihi-13" value="name" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="7U7vAsr_AXt3HuqYSihi-2">
           <mxGeometry y="90" width="200" height="30" as="geometry" />
         </mxCell>
+        <mxCell id="7U7vAsr_AXt3HuqYSihi-25" value="date" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="7U7vAsr_AXt3HuqYSihi-2">
+          <mxGeometry y="120" width="200" height="30" as="geometry" />
+        </mxCell>
         <mxCell id="7U7vAsr_AXt3HuqYSihi-3" value="exercise" style="swimlane;whiteSpace=wrap;html=1;startSize=30;" vertex="1" parent="1">
           <mxGeometry x="300" y="340" width="200" height="120" as="geometry" />
         </mxCell>
