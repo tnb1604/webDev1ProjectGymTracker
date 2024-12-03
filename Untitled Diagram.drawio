@@ -23,7 +23,7 @@
           <mxGeometry y="150" width="200" height="30" as="geometry" />
         </mxCell>
         <mxCell id="7U7vAsr_AXt3HuqYSihi-2" value="workout" style="swimlane;whiteSpace=wrap;html=1;startSize=30;" vertex="1" parent="1">
-          <mxGeometry x="550" y="100" width="200" height="200" as="geometry" />
+          <mxGeometry x="550" y="100" width="200" height="150" as="geometry" />
         </mxCell>
         <mxCell id="7U7vAsr_AXt3HuqYSihi-11" value="workout_id (PK)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="7U7vAsr_AXt3HuqYSihi-2">
           <mxGeometry y="30" width="200" height="30" as="geometry" />
