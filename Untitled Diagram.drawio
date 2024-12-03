@@ -43,7 +43,7 @@
         <mxCell id="7U7vAsr_AXt3HuqYSihi-14" value="exercise_id (PK)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="7U7vAsr_AXt3HuqYSihi-3">
           <mxGeometry y="30" width="200" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="7U7vAsr_AXt3HuqYSihi-15" value="workout_id (FK)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="7U7vAsr_AXt3HuqYSihi-3">
+        <mxCell id="7U7vAsr_AXt3HuqYSihi-15" value="user_id (FK)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="7U7vAsr_AXt3HuqYSihi-3">
           <mxGeometry y="60" width="200" height="30" as="geometry" />
         </mxCell>
         <mxCell id="7U7vAsr_AXt3HuqYSihi-16" value="name" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="7U7vAsr_AXt3HuqYSihi-3">
