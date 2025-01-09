@@ -14,6 +14,6 @@ Route::add('/users', function () {
 // the dynamic part of the url path gets passed in as the $userId variable
 Route::add('/user/([a-z-0-9-]*)', function ($userId) {
     $userController = new UserController(); // create a new user controller
-    $user = $userController->get($userId); // get data for the view
+    $user = $userController->get($userId); // zget data for the view
     require_once(__DIR__ . "/../views/pages/user.php"); // load the view
 });

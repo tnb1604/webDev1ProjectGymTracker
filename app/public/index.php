@@ -26,3 +26,4 @@ require_once(__DIR__ . "/routes/user.php");
 
 // Start the router, enabling handling requests
 Route::run();
+
