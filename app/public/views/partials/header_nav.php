@@ -1,7 +1,8 @@
 <nav class="navbar bg-body-tertiary bg-dark" data-bs-theme="dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="<?php echo isset($_SESSION['user_id']) ? '/user/dashboard' : '/'; ?>">Gym Workout
-            Tracker</a>
+        <a class="navbar-brand"
+            href="<?php echo isset($_SESSION['username']) ? ($_SESSION['type'] === 'User' ? '/user/dashboard' : '/management/dashboard') : '/'; ?>">Gym
+            Workout Tracker</a>
         <div class="d-flex justify-content-center gap-2 flex-grow-1">
             <?php if (isset($_SESSION['username'])): ?>
                 <?php if (isset($_SESSION['type']) && $_SESSION['type'] === 'Manager'): ?>

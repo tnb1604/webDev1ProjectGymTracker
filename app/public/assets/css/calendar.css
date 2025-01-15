@@ -1,0 +1,82 @@
+/* Overall calendar container */
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f1f3f5;
+    border-radius: 10px;
+}
+
+/* Styling for individual calendar day cells */
+.calendar-day {
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Logged workouts will have a green background */
+.calendar-day.logged {
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+}
+
+/* Highlight today's date with a blue background */
+.calendar-day.today {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+/* Hover effect for all calendar days */
+.calendar-day:hover {
+    background-color: #e9ecef;
+    transform: scale(1.1);
+}
+
+/* Add extra space for calendar header days */
+.calendar-day span {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Add a subtle shadow around the entire calendar grid */
+.calendar {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Special styling for empty cells before the first day of the month */
+.calendar-day.empty {
+    background-color: transparent;
+}
+
+/* Style for 'Previous' and 'Next' buttons (for navigation) */
+button {
+    border: none;
+    background-color: transparent;
+    color: #007bff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+button:hover {
+    color: #0056b3;
+}
+
+/* Add some space between calendar's day names */
+.calendar-day:first-child,
+.calendar-day:last-child {
+    padding-left: 20px;
+    padding-right: 20px;
+}

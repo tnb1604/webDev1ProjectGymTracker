@@ -28,12 +28,12 @@ Route::add('/user/register', function () {
 
 Route::add('/user/dashboard', function () {
     $controller = new UserController();
-    $controller->dashboardFunc();
+    $controller->index();
 });
 
 Route::add('/management/dashboard', function () {
     $controller = new UserController();
-    $controller->dashboardFunc();
+    $controller->index();
 });
 
 Route::add('/logout', function () {
@@ -43,15 +43,16 @@ Route::add('/logout', function () {
     exit();
 });
 
-Route::add('/account_info', function () {
-    require(__DIR__ . '/../views/pages/account_info.php');
+Route::add('/account', function () {
+    $controller = new UserController();
+    $controller->index('account_info'); 
 });
 
 // Exercise creation page (controller-driven)
 Route::add('/user/exercises', function () {
 
     $controller = new ExerciseController();
-    $controller->index();  // This method handles creating exercises
+    $controller->index(); 
 });
 
 
@@ -61,9 +62,9 @@ Route::add('/user/workouts', function () {
 });
 
 // Manage exercises page (controller-driven)
-Route::add('/management/exercises', function () {
+Route::add('/manage/exercises', function () {
     $controller = new ExerciseController();
-    $controller->manageExercises();  // This method handles managing exercises
+    $controller->index('manage'); 
 });
 
 

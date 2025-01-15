@@ -13,6 +13,17 @@ class WorkoutModel extends BaseModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getByDate($userId, $date)
+    {
+        // Fetch workouts for the current month (or any date range)
+        $sql = "SELECT * FROM workout WHERE user_id = :user_id AND date BETWEEN :start_date AND :end_date";
+        $stmt = self::$pdo->prepare($sql);
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->bindParam(':date', $date, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function create($userId, $name, $date)
     {
         $sql = "INSERT INTO workout (user_id, name, date) VALUES (:user_id, :name, :date)";

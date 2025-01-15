@@ -27,7 +27,7 @@ class ExerciseModel extends BaseModel
         return $stmt->execute([$name, $userId]);
     }
 
-    public function createExercise($name, $userId)
+    public function createUserExercise($name, $userId)
     {
         $query = "INSERT INTO exercise (name, user_id) VALUES (?, ?)";
         $stmt = self::$pdo->prepare($query);
@@ -42,9 +42,5 @@ class ExerciseModel extends BaseModel
         $query = "DELETE FROM exercise WHERE exercise_id = ?";
         $stmt = self::$pdo->prepare($query);
         return $stmt->execute([$exerciseId]);
-    }
-    public function deleteGlobalExercise($exerciseId)
-    {
-
     }
 }

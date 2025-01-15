@@ -24,6 +24,18 @@ class WorkoutController
         // Fetch user and workouts
         $user = $this->userModel->get($_SESSION['user_id']);
         $workouts = $this->workoutModel->getAllByUser($user['user_id']);
+        
+
+
+
+
+        //date stuff
+
+
+
+
+
+
 
         // Load the workouts view
         require __DIR__ . '/../views/pages/log_workouts.php';

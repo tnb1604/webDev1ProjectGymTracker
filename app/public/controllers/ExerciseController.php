@@ -14,10 +14,9 @@ class ExerciseController
         $this->userModel = new UserModel(); // Initialize the UserModel
     }
 
-    public function index()
+    public function index($action = 'create')
     {
-        //session_start();
-
+        // Check if the user is logged in
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
@@ -34,9 +33,16 @@ class ExerciseController
         $userExercises = $this->exerciseModel->getUserExercises($user['user_id']);
         $globalExercises = $this->exerciseModel->getGlobalExercises();
 
-        // Pass user and exercises data to the view
-        require __DIR__ . '/../views/pages/create_exercises.php';
+        // Pass data to the view based on the action (create or manage)
+        if ($action === 'manage') {
+            // If the action is 'manage', show the manage exercises page
+            require __DIR__ . '/../views/pages/manage_exercises.php';
+        } else {
+            // Default action is 'create', show the create exercises page
+            require __DIR__ . '/../views/pages/create_exercises.php';
+        }
     }
+
 
     public function showGlobalExercises()
     {
@@ -48,45 +54,22 @@ class ExerciseController
         return $this->exerciseModel->getUserExercises($userId);
     }
 
-    public function addExercise($name, $userId = null)
+    public function createGlobalExercise($name, $userId = null)
     {
-        $this->exerciseModel->createExercise($name, $userId);
+        $this->exerciseModel->createGlobalExercise($name, $userId);
     }
+
+    public function createUserExercise($name, $userId = null)
+    {
+        $this->exerciseModel->createUserExercise($name, $userId);
+    }
+
 
     public function removeExercise($exerciseId)
     {
         $this->exerciseModel->deleteExercise($exerciseId);
     }
 
-    // Method to create an exercise for a specific user
-    public function createExercise()
-    {
-        //method to create an exercise for a specific user
-    }
-
-
     // Method to manage user exercises (list and remove)
-    public function manageExercises()
-    {
-        //session_start();
 
-        if (!isset($_SESSION['user_id'])) {
-            header('Location: /login');
-            exit();
-        }
-
-        // Fetch user data
-        $user = $this->userModel->get($_SESSION['user_id']);
-        if (!$user) {
-            echo "Error: User not found!";
-            exit();
-        }
-
-        // Fetch exercises for the user
-        $userExercises = $this->exerciseModel->getUserExercises($user['user_id']);
-        $globalExercises = $this->exerciseModel->getGlobalExercises();
-
-        // Pass data to the view to manage exercises
-        require __DIR__ . '/../views/pages/manage_exercises.php';
-    }
 }
