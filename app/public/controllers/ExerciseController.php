@@ -64,7 +64,7 @@ class ExerciseController
         $this->exerciseModel->createUserExercise($name, $userId);
     }
 
-
+ 
     public function removeExercise($exerciseId)
     {
         $this->exerciseModel->deleteExercise($exerciseId);
