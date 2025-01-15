@@ -27,16 +27,6 @@ class WorkoutController
         
 
 
-
-
-        //date stuff
-
-
-
-
-
-
-
         // Load the workouts view
         require __DIR__ . '/../views/pages/log_workouts.php';
     }
