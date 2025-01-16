@@ -23,6 +23,30 @@ if (!isset($_SESSION['username']) || $_SESSION['type'] === 'Manager') {
     <div class="container my-4">
         <h1 class="alert alert-info text-center">Exercises Page</h1>
 
+
+
+
+        <!-- Create New Exercise Form -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <h3>Create New Exercise</h3>
+            </div>
+            <div class="card-body">
+                <form action="/addExercise" method="POST" class="needs-validation" id="createExerciseForm" novalidate>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Exercise Name:</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter exercise name"
+                            required>
+                        <div class="invalid-feedback" id="nameError">
+                            Please enter an exercise name.
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Exercise</button>
+                </form>
+            </div>
+        </div>
+
+
         <!-- User Exercises -->
         <div class="mb-4">
             <h3>Your Exercises:</h3>
@@ -33,8 +57,8 @@ if (!isset($_SESSION['username']) || $_SESSION['type'] === 'Manager') {
                             <?php echo htmlspecialchars($exercise['name']); ?>
                             <div>
                                 <!-- Modify Button (now triggering the modal) -->
-                                <button type="button" class="btn btn-sm btn-warning me-2" data-bs-toggle="modal" data-bs-target="#editExerciseModal" 
-                                    data-id="<?php echo $exercise['exercise_id']; ?>"
+                                <button type="button" class="btn btn-sm btn-warning me-2" data-bs-toggle="modal"
+                                    data-bs-target="#editExerciseModal" data-id="<?php echo $exercise['exercise_id']; ?>"
                                     data-name="<?php echo htmlspecialchars($exercise['name']); ?>">Modify</button>
 
                                 <!-- Delete Button -->
@@ -65,28 +89,12 @@ if (!isset($_SESSION['username']) || $_SESSION['type'] === 'Manager') {
             <?php endif; ?>
         </div>
 
-        <!-- Create New Exercise Form -->
-        <div class="card">
-            <div class="card-header">
-                <h3>Create New Exercise</h3>
-            </div>
-            <div class="card-body">
-                <form action="/addExercise" method="POST" class="needs-validation" id="createExerciseForm" novalidate>
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Exercise Name:</label>
-                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter exercise name" required>
-                        <div class="invalid-feedback" id="nameError">
-                            Please enter an exercise name.
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Add Exercise</button>
-                </form>
-            </div>
-        </div>
+
     </div>
 
     <!-- Edit Exercise Modal -->
-    <div class="modal fade" id="editExerciseModal" tabindex="-1" aria-labelledby="editExerciseModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editExerciseModal" tabindex="-1" aria-labelledby="editExerciseModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -97,7 +105,8 @@ if (!isset($_SESSION['username']) || $_SESSION['type'] === 'Manager') {
                     <form action="/editExercise" method="POST" id="editExerciseForm">
                         <div class="mb-3">
                             <label for="exerciseName" class="form-label">Exercise Name:</label>
-                            <input type="text" id="exerciseName" name="name" class="form-control" placeholder="Enter new exercise name" required>
+                            <input type="text" id="exerciseName" name="name" class="form-control"
+                                placeholder="Enter new exercise name" required>
                             <input type="hidden" id="exerciseId" name="id">
                         </div>
                         <button type="submit" class="btn btn-primary">Save Changes</button>
@@ -125,7 +134,7 @@ if (!isset($_SESSION['username']) || $_SESSION['type'] === 'Manager') {
 
     // Handle form submission for creating an exercise
     const createExerciseForm = document.getElementById('createExerciseForm');
-    createExerciseForm.addEventListener('submit', function(event) {
+    createExerciseForm.addEventListener('submit', function (event) {
         const nameInput = document.getElementById('name');
         const nameError = document.getElementById('nameError');
 

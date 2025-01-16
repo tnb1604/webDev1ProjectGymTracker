@@ -11,6 +11,15 @@ if ($error_message) {
     // Clear error message after displaying it once
     unset($_SESSION['error_message']);
 }
+
+// Handle search query if provided
+$search_term = isset($_GET['search']) ? trim($_GET['search']) : '';
+if ($search_term) {
+    // Filter exercises based on the search term
+    $globalExercises = array_filter($globalExercises, function ($exercise) use ($search_term) {
+        return stripos($exercise['name'], $search_term) !== false;
+    });
+}
 ?>
 
 <!DOCTYPE html>
@@ -40,6 +49,16 @@ if ($error_message) {
             </div>
         <?php endif; ?>
 
+        <!-- Add Search Option -->
+        <div class="my-3">
+            <form method="GET" action="" class="d-flex">
+                <input type="text" name="search" class="form-control me-2" placeholder="Search exercises"
+                    value="<?php echo htmlspecialchars($search_term); ?>">
+                <button type="submit" class="btn btn-primary me-2">Search</button>
+                <a href="/manage/exercises" class="btn btn-secondary">Reset</a>
+            </form>
+        </div>
+
         <!-- Add New Global Exercise Section -->
         <div class="card mt-4">
             <div class="card-header bg-primary text-white">
@@ -57,7 +76,7 @@ if ($error_message) {
         </div>
 
         <!-- List of Global Exercises -->
-        <div class="card mt-4">
+        <div class="card mt-4 mb-4">
             <div class="card-header bg-secondary text-white">
                 Global Exercises
             </div>
@@ -87,52 +106,48 @@ if ($error_message) {
                 <?php endif; ?>
             </ul>
         </div>
-    </div>
 
-    <!-- Edit Exercise Modal -->
-    <div class="modal fade" id="editExerciseModal" tabindex="-1" aria-labelledby="editExerciseModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editExerciseModalLabel">Edit Exercise</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="/editGlobalExercise" method="POST" id="editExerciseForm">
-                        <div class="mb-3">
-                            <label for="editExerciseName" class="form-label">Exercise Name:</label>
-                            <input type="text" id="editExerciseName" name="name" class="form-control"
-                                placeholder="Enter new exercise name" required>
-                            <input type="hidden" id="exerciseId" name="id">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </form>
+        <!-- Edit Exercise Modal -->
+        <div class="modal fade" id="editExerciseModal" tabindex="-1" aria-labelledby="editExerciseModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editExerciseModalLabel">Edit Exercise</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/editGlobalExercise" method="POST" id="editExerciseForm">
+                            <div class="mb-3">
+                                <label for="editExerciseName" class="form-label">Exercise Name:</label>
+                                <input type="text" id="editExerciseName" name="name" class="form-control"
+                                    placeholder="Enter new exercise name" required>
+                                <input type="hidden" id="exerciseId" name="id">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Bootstrap JS (Required for Modal functionality) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            // Fill the modal with the selected exercise data
+            const editButtons = document.querySelectorAll('[data-bs-toggle="modal"]');
+            editButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const exerciseId = this.getAttribute('data-id');
+                    const exerciseName = this.getAttribute('data-name');
 
-    <script>
-        // Fill the modal with the selected exercise data
-        const editButtons = document.querySelectorAll('[data-bs-toggle="modal"]');
-        editButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const exerciseId = this.getAttribute('data-id');
-                const exerciseName = this.getAttribute('data-name');
-
-                // Populate the fields in the modal
-                document.getElementById('exerciseId').value = exerciseId;
-                document.getElementById('editExerciseName').value = exerciseName;
+                    // Populate the fields in the modal
+                    document.getElementById('exerciseId').value = exerciseId;
+                    document.getElementById('editExerciseName').value = exerciseName;
+                });
             });
-        });
-    </script>
-
-
+        </script>
 </body>
 
 </html>
