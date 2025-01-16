@@ -11,6 +11,20 @@ class UserController
         $this->userModel = new UserModel();
     }
 
+    public function getAll()
+    {
+        // Fetch all users from the model
+        return $this->userModel->getAll(); // Return the fetched data
+    }
+
+    // Get a single user by ID
+    public function get($id)
+    {
+        // Fetch a specific user by ID from the model
+        return $this->userModel->get($id); // Return the fetched data
+    }
+
+
     /**
      * Set user session variables after login or registration.
      */

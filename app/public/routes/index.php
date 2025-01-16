@@ -45,14 +45,14 @@ Route::add('/logout', function () {
 
 Route::add('/account', function () {
     $controller = new UserController();
-    $controller->index('account_info'); 
+    $controller->index('account_info');
 });
 
 // Exercise creation page (controller-driven)
 Route::add('/user/exercises', function () {
 
     $controller = new ExerciseController();
-    $controller->index(); 
+    $controller->index();
 });
 
 
@@ -64,7 +64,35 @@ Route::add('/user/workouts', function () {
 // Manage exercises page (controller-driven)
 Route::add('/manage/exercises', function () {
     $controller = new ExerciseController();
-    $controller->index('manage'); 
+    $controller->index('manage');
 });
 
+Route::add('/addExercise', function () {
+    $controller = new ExerciseController();
+    $controller->createExercise();
+}, 'post');
 
+Route::add('/deleteExercise', function () {
+    $controller = new ExerciseController();
+    $controller->deleteExercise();
+}, 'post');
+
+Route::add('/editExercise', function () {
+    $controller = new ExerciseController();
+    $controller->editExercise($_POST['id']);
+}, 'post');
+
+Route::add('/addGlobalExercise', function () {
+    $controller = new ExerciseController();
+    $controller->createGlobalExercise();
+}, 'post');
+
+Route::add('/deleteGlobalExercise', function () {
+    $controller = new ExerciseController();
+    $controller->deleteGlobalExercise();
+}, 'post');
+
+Route::add('/editGlobalExercise', function () {
+    $controller = new ExerciseController();
+    $controller->editGlobalExercise($_POST['id']);
+}, 'post');

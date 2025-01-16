@@ -24,8 +24,17 @@ class ExerciseModel extends BaseModel
     {
         $query = "INSERT INTO exercise (name, user_id) VALUES (?, ?)";
         $stmt = self::$pdo->prepare($query);
-        return $stmt->execute([$name, $userId]);
+
+        if (!$stmt->execute([$name, $userId])) {
+            // Log the error or print out the error message
+            $errorInfo = $stmt->errorInfo();
+            echo "Error: " . $errorInfo[2];  // This will print the PDO error message
+            return false;
+        }
+
+        return true;
     }
+
 
     public function createUserExercise($name, $userId)
     {
@@ -36,11 +45,27 @@ class ExerciseModel extends BaseModel
 
     public function deleteExercise($exerciseId)
     {
-        if (!$exerciseId) {
-            return false;
+        try {
+            // Use self::$pdo to refer to the static PDO instance
+            $stmt = self::$pdo->prepare("DELETE FROM exercise WHERE exercise_id = :exercise_id");
+            $stmt->bindParam(':exercise_id', $exerciseId, PDO::PARAM_INT);
+            $stmt->execute();
+
+        } catch (PDOException $e) {
+            // Handle foreign key violations or other errors
+            if ($e->getCode() == 23000) {
+                return "You cannot delete this exercise because it is used in one or more workouts.";
+            } else {
+                return "An error occurred while trying to delete the exercise: " . $e->getMessage();
+            }
         }
-        $query = "DELETE FROM exercise WHERE exercise_id = ?";
-        $stmt = self::$pdo->prepare($query);
-        return $stmt->execute([$exerciseId]);
     }
+
+    public function updateExercise($exerciseId, $newName)
+    {
+        $query = "UPDATE exercise SET name = ? WHERE exercise_id = ?";
+        $stmt = self::$pdo->prepare($query);
+        return $stmt->execute([$newName, $exerciseId]);
+    }
+
 }

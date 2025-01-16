@@ -34,10 +34,10 @@ $loggedWorkouts = [
 
     <?php require __DIR__ . '/../partials/welcome_message.php'; ?>
 
-    <?php require __DIR__ . '/../partials/calendar.php'; ?>
+    <?php if (isset($_SESSION['type']) && $_SESSION['type'] === 'User'): ?>
+        <?php require __DIR__ . '/../partials/calendar.php'; ?>
+    <?php endif; ?>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </head>
 

@@ -43,33 +43,155 @@ class ExerciseController
         }
     }
 
-
-    public function showGlobalExercises()
+    public function manageExercises()
     {
-        return $this->exerciseModel->getGlobalExercises();
+        // Check if the user is logged in and is a manager
+        if (!isset($_SESSION['user_id']) || $_SESSION['type'] !== 'Manager') {
+            header('Location: /login');
+            exit();
+        }
+
+        // Fetch exercises for the user (global and user-specific)
+        $userExercises = $this->exerciseModel->getUserExercises($_SESSION['user_id']);
+        $globalExercises = $this->exerciseModel->getGlobalExercises();
+
+        // Render the manage exercises page
+        require __DIR__ . '/../views/pages/manage_exercises.php';
     }
 
-    public function showUserExercises($userId)
+
+    public function createExercise()
     {
-        return $this->exerciseModel->getUserExercises($userId);
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $exerciseName = trim($_POST['name']);
+            if (empty($exerciseName)) {
+                echo "Error: Exercise name cannot be empty!";
+                return;
+            }
+
+            $userId = $_SESSION['user_id'];
+            $this->exerciseModel->createUserExercise($exerciseName, $userId);
+            header('Location: /user/exercises');
+            exit();
+        }
     }
 
-    public function createGlobalExercise($name, $userId = null)
+
+    public function deleteExercise()
     {
-        $this->exerciseModel->createGlobalExercise($name, $userId);
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $exerciseId = $_POST['id'];
+            $this->exerciseModel->deleteExercise($exerciseId);
+            header('Location: /user/exercises');
+            exit();
+        }
+    }
+    public function editExercise($exerciseId)
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $exerciseName = trim($_POST['name']);
+            if (empty($exerciseName)) {
+                echo "Error: Exercise name cannot be empty!";
+                return;
+            }
+
+            $this->exerciseModel->updateExercise($exerciseId, $exerciseName);
+            header('Location: /user/exercises');
+            exit();
+        }
     }
 
-    public function createUserExercise($name, $userId = null)
+    public function createGlobalExercise()
     {
-        $this->exerciseModel->createUserExercise($name, $userId);
+        // Ensure the user is logged in
+        if (!isset($_SESSION['user_id']) || $_SESSION['type'] !== 'Manager') {
+            header('Location: /login');
+            exit();
+        }
+
+        // Handle POST request for creating a global exercise
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $exerciseName = trim($_POST['name']);
+
+            if (empty($exerciseName)) {
+                echo "Error: Exercise name cannot be empty!";
+                return;
+            }
+
+            // Create global exercise with user_id set to NULL (since it's global)
+            $this->exerciseModel->createGlobalExercise($exerciseName, NULL);
+            header('Location: /manage/exercises');
+            exit();
+        }
     }
 
- 
-    public function removeExercise($exerciseId)
+    public function deleteGlobalExercise()
     {
-        $this->exerciseModel->deleteExercise($exerciseId);
+        // Ensure the user is logged in and is a Manager
+        if (!isset($_SESSION['user_id']) || $_SESSION['type'] !== 'Manager') {
+            header('Location: /login');
+            exit();
+        }
+
+        // Handle POST request for deleting a global exercise
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $exerciseId = $_POST['id'];
+
+            // Attempt to delete the exercise
+            $result = $this->exerciseModel->deleteExercise($exerciseId);
+
+            // If the result is an error message, show it to the user
+            if ($result && strpos($result, 'cannot delete') !== false) {
+                $_SESSION['error_message'] = $result;
+                header('Location: /manage/exercises');
+                exit();
+            }
+
+            // Redirect after successful deletion
+            header('Location: /manage/exercises');
+            exit();
+        }
     }
 
-    // Method to manage user exercises (list and remove)
+
+
+    public function editGlobalExercise($exerciseId)
+    {
+        // Ensure the user is logged in and is a Manager
+        if (!isset($_SESSION['user_id']) || $_SESSION['type'] !== 'Manager') {
+            header('Location: /login');
+            exit();
+        }
+
+        // Handle POST request for editing a global exercise
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $exerciseName = trim($_POST['name']);
+
+            if (empty($exerciseName)) {
+                echo "Error: Exercise name cannot be empty!";
+                return;
+            }
+
+            // Update the global exercise
+            $this->exerciseModel->updateExercise($exerciseId, $exerciseName);
+            header('Location: /manage/exercises');
+            exit();
+        }
+    }
 
 }
