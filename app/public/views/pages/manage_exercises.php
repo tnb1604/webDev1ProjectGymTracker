@@ -38,8 +38,8 @@ if ($search_term) {
     <?php require __DIR__ . '/../partials/header.php'; ?>
 
     <div class="container mt-5">
-        <h1 class="text-center">Manage Global Exercises</h1>
-        <p class="text-center">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</p>
+        <h1 class="text-center mb-4">Manage Global Exercises</h1>
+
 
         <!-- Display Error Message if Available -->
         <?php if ($error_message): ?>
