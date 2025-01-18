@@ -79,7 +79,7 @@ Route::add('/deleteExercise', function () {
 
 Route::add('/editExercise', function () {
     $controller = new ExerciseController();
-    $controller->editExercise($_POST['id']);
+    $controller->editExercise(exerciseId: $_POST['id']);
 }, 'post');
 
 Route::add('/addGlobalExercise', function () {
@@ -95,4 +95,19 @@ Route::add('/deleteGlobalExercise', function () {
 Route::add('/editGlobalExercise', function () {
     $controller = new ExerciseController();
     $controller->editGlobalExercise($_POST['id']);
+}, 'post');
+
+Route::add('/getAllExercises', function () {
+    $controller = new ExerciseController();
+    $controller->getAllExercises();
+});
+
+Route::add('/user/workouts', function () {
+    $controller = new WorkoutController();
+    $controller->logWorkout();
+});
+
+Route::add('/user/workouts/submit', function () {
+    $controller = new WorkoutController();
+    $controller->logWorkout();
 }, 'post');

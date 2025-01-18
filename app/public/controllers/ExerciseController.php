@@ -32,6 +32,9 @@ class ExerciseController
         // Fetch exercises for the user
         $userExercises = $this->exerciseModel->getUserExercises($user['user_id']);
         $globalExercises = $this->exerciseModel->getGlobalExercises();
+        $allExercises = $this->exerciseModel->getAllExercises($user['user_id']);
+
+
 
         // Pass data to the view based on the action (create or manage)
         if ($action === 'manage') {
@@ -43,20 +46,32 @@ class ExerciseController
         }
     }
 
-    public function manageExercises()
+    public function getAllExercises()
     {
-        // Check if the user is logged in and is a manager
-        if (!isset($_SESSION['user_id']) || $_SESSION['type'] !== 'Manager') {
+        // Ensure the user is logged in
+        if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
             exit();
         }
 
-        // Fetch exercises for the user (global and user-specific)
-        $userExercises = $this->exerciseModel->getUserExercises($_SESSION['user_id']);
-        $globalExercises = $this->exerciseModel->getGlobalExercises();
+        $user = $this->userModel->get($_SESSION['user_id']);
+        if (!$user) {
+            echo "Error: User not found!";
+            exit();
+        }
 
-        // Render the manage exercises page
-        require __DIR__ . '/../views/pages/manage_exercises.php';
+        // Fetch all exercises
+        $allExercises = $this->exerciseModel->getAllExercises($user["user_id"]);
+
+        // Debugging: Check if exercises were fetched
+        if (!$allExercises || empty($allExercises)) {
+            echo "Error: No exercises found!";
+            exit();
+        }
+
+        // Pass data to the log workouts view
+        //require __DIR__ . '/../views/pages/log_workouts.php';
+        return $allExercises;
     }
 
 

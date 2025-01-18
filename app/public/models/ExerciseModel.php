@@ -20,6 +20,16 @@ class ExerciseModel extends BaseModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getAllExercises($userId)
+    {
+        $query = "SELECT * FROM exercise WHERE user_id = :user_id OR user_id IS NULL";
+        $stmt = self::$pdo->prepare($query);
+        $stmt->execute([':user_id' => $userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+
     public function createGlobalExercise($name, $userId = null)
     {
         $query = "INSERT INTO exercise (name, user_id) VALUES (?, ?)";

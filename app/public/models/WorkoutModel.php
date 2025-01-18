@@ -31,8 +31,32 @@ class WorkoutModel extends BaseModel
         $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
         $stmt->bindParam(':date', $date, PDO::PARAM_STR);
+
+        // Execute the query
+        if ($stmt->execute()) {
+            // Return the last inserted ID
+            return self::$pdo->lastInsertId();
+        } else {
+            // Handle the error if needed (optional)
+            return false;
+        }
+    }
+
+
+    public function addExerciseToWorkout($workoutId, $exerciseId, $setNumber, $reps, $weight)
+    {
+        $stmt = self::$pdo->prepare("
+        INSERT INTO workout_exercise (workout_id, exercise_id, set_number, reps, weight)
+        VALUES (:workout_id, :exercise_id, :set_number, :reps, :weight)
+    ");
+        $stmt->bindParam(':workout_id', $workoutId);
+        $stmt->bindParam(':exercise_id', $exerciseId);
+        $stmt->bindParam(':set_number', $setNumber);
+        $stmt->bindParam(':reps', $reps);
+        $stmt->bindParam(':weight', $weight);
         return $stmt->execute();
     }
+
 
     public function delete($workoutId)
     {
@@ -40,6 +64,17 @@ class WorkoutModel extends BaseModel
         $stmt = self::$pdo->prepare($sql);
         $stmt->bindParam(':workout_id', $workoutId, PDO::PARAM_INT);
         return $stmt->execute();
+    }
+    public function getExerciseIdByName($exerciseName)
+    {
+        $query = "SELECT exercise_id FROM exercise WHERE name = :name LIMIT 1";
+        $statement = self::$pdo->prepare($query);
+        $statement->bindParam(':name', $exerciseName, PDO::PARAM_STR);
+        $statement->execute();
+
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        return $result ? (int) $result['exercise_id'] : null;
     }
 
     public function update($workoutId, $name, $date)
@@ -60,4 +95,41 @@ class WorkoutModel extends BaseModel
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function getWorkoutDetails($workoutId)
+    {
+        // Query to fetch workout details
+        $workoutQuery = "SELECT * FROM workout WHERE workout_id = :workout_id";
+        $stmt = self::$pdo->prepare($workoutQuery);
+        $stmt->bindParam(':workout_id', $workoutId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Check if workout exists
+        if ($stmt->rowCount() > 0) {
+            $workout = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Query to fetch exercises associated with the workout from workout_exercise
+            $exerciseQuery = "
+            SELECT set_number, reps, weight
+            FROM workout_exercise
+            WHERE workout_id = :workout_id";
+
+            $stmt = self::$pdo->prepare($exerciseQuery);
+            $stmt->bindParam(':workout_id', $workoutId, PDO::PARAM_INT);
+            $stmt->execute();
+            $exercises = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return [
+                'success' => true,
+                'workout' => $workout,
+                'exercises' => $exercises,
+            ];
+        } else {
+            return [
+                'success' => false,
+                'error' => 'Workout not found.',
+            ];
+        }
+    }
+
 }
