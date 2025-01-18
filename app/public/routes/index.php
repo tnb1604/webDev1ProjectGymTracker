@@ -102,12 +102,18 @@ Route::add('/getAllExercises', function () {
     $controller->getAllExercises();
 });
 
-Route::add('/user/workouts', function () {
+/*Route::add('/user/workouts', function () {
     $controller = new WorkoutController();
     $controller->logWorkout();
-});
+});*/
 
 Route::add('/user/workouts/submit', function () {
     $controller = new WorkoutController();
     $controller->logWorkout();
 }, 'post');
+
+// New route for AJAX (API endpoint)
+Route::add('/api/getWorkoutDetails', function () {
+    $controller = new WorkoutController();
+    $controller->getWorkoutDetails(); // Fetch workout details via AJAX
+});

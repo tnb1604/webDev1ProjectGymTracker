@@ -113,6 +113,27 @@ class WorkoutController
         require(__DIR__ . '/../views/pages/log_workouts.php');
     }
 
+    public function getWorkoutDetails()
+    {
+        // Check if workout_id is provided in the GET request
+        if (!isset($_GET['workout_id']) || empty($_GET['workout_id'])) {
+            echo json_encode([
+                'success' => false,
+                'error' => 'Workout ID is required.'
+            ]);
+            return;
+        }
+
+        // Sanitize the workout ID from the GET request
+        $workoutId = intval($_GET['workout_id']);
+
+        // Call the model to fetch the workout details
+        $model = new WorkoutModel(); // Instantiate your WorkoutModel
+        $result = $model->getWorkoutDetails($workoutId);
+
+        // Return the result as a JSON response
+        echo json_encode($result);
+    }
 
 
 
