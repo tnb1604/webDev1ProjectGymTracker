@@ -38,7 +38,8 @@ class WorkoutController
 
     public function logWorkout()
     {
-        //unset($_SESSION['error']);
+        // Unset the session error
+        unset($_SESSION['error']);
 
         if (!isset($_SESSION['user_id'])) {
             header('Location: /login');
@@ -70,8 +71,8 @@ class WorkoutController
                     $reps = $set['reps'] ?? null;
                     $weight = $set['weight'] ?? null;
 
-                    // Validate reps and weight
-                    if (empty($reps) || empty($weight)) {
+                    // Validate reps and weight (allow weight to be 0)
+                    if (empty($reps) || $weight === null) {
                         $_SESSION['error'] = 'Reps and weight for each set are required!';
                         header('Location: /user/workouts');
                         exit();
@@ -92,8 +93,8 @@ class WorkoutController
                     $reps = $set['reps'] ?? null;
                     $weight = $set['weight'] ?? null;
 
-                    // Validate set data
-                    if (empty($reps) || empty($weight)) {
+                    // Validate set data (allow weight to be 0)
+                    if (empty($reps) || $weight === null) {
                         $_SESSION['error'] = 'Reps and weight for each set are required!';
                         header('Location: /user/workouts');
                         exit();
