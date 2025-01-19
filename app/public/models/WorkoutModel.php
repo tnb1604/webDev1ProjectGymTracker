@@ -46,6 +46,11 @@ class WorkoutModel extends BaseModel
 
     public function addExerciseToWorkout($workoutId, $exerciseId, $setNumber, $reps, $weight)
     {
+        // Validate reps and weight length
+        if (strlen($reps) > 10 || strlen($weight) > 10) {
+            throw new Exception('Reps or weight value is too long.');
+        }
+
         $stmt = self::$pdo->prepare("
         INSERT INTO workout_exercise (workout_id, exercise_id, set_number, reps, weight)
         VALUES (:workout_id, :exercise_id, :set_number, :reps, :weight)

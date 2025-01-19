@@ -16,6 +16,11 @@ $userExercises = array_filter($userExercises, function ($exercise) use ($search_
 $globalExercises = array_filter($globalExercises, function ($exercise) use ($search_term) {
     return stripos($exercise['name'], $search_term) !== false;
 });
+
+$error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : null;
+if ($error_message) {
+    unset($_SESSION['error_message']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -32,6 +37,14 @@ $globalExercises = array_filter($globalExercises, function ($exercise) use ($sea
     <?php require __DIR__ . '/../partials/header.php'; ?>
 
     <div class="container mt-5">
+        <!-- Display Error Message if Available -->
+        <?php if ($error_message): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?php echo htmlspecialchars($error_message); ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
         <h1 class="text-center">Your Exercises</h1>
 
         <!-- Add Search Option -->

@@ -2,6 +2,10 @@
 require_once __DIR__ . '/../controllers/ExerciseController.php';
 require_once __DIR__ . '/../controllers/WorkoutController.php';
 
+
+//------------------------------------------------------------- AUTH ROUTES -------------------------------------------------------------\\
+
+
 Route::add('/', function () {
     // homepage is simply loading a static page
     // view the user routes for example following the MVC pattern
@@ -48,7 +52,10 @@ Route::add('/account', function () {
     $controller->index('account_info');
 });
 
-// Exercise creation page (controller-driven)
+
+//------------------------------------------------------------- EXERCISE ROUTES -------------------------------------------------------------\\
+
+
 Route::add('/user/exercises', function () {
 
     $controller = new ExerciseController();
@@ -56,12 +63,6 @@ Route::add('/user/exercises', function () {
 });
 
 
-Route::add('/user/workouts', function () {
-    $controller = new WorkoutController();
-    $controller->index();
-});
-
-// Manage exercises page (controller-driven)
 Route::add('/manage/exercises', function () {
     $controller = new ExerciseController();
     $controller->index('manage');
@@ -102,15 +103,24 @@ Route::add('/getAllExercises', function () {
     $controller->getAllExercises();
 });
 
+
+//------------------------------------------------------------- WORKOUT ROUTES -------------------------------------------------------------\\
+
+
+Route::add('/user/workouts', function () {
+    $controller = new WorkoutController();
+    $controller->index();
+});
+
 Route::add('/user/workouts/submit', function () {
     $controller = new WorkoutController();
     $controller->logWorkout();
 }, 'post');
 
-// New route for AJAX (API endpoint)
+// route for AJAX (API endpoint), fetch workout details via AJAX
 Route::add('/api/getWorkoutDetails', function () {
     $controller = new WorkoutController();
-    $controller->getWorkoutDetails(); // Fetch workout details via AJAX
+    $controller->getWorkoutDetails();
 });
 
 Route::add('/user/workouts/update', function () {
@@ -123,7 +133,7 @@ Route::add('/user/workouts/delete', function () {
     $controller->deleteWorkout();
 }, 'post');
 
-// New route for search API
+// route for search API
 Route::add('/api/searchGlobalExercises.php', function () {
     require __DIR__ . '/../api/searchGlobalExercises.php';
 });

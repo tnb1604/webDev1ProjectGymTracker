@@ -106,7 +106,13 @@ class ExerciseController
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $exerciseId = $_POST['id'];
-            $this->exerciseModel->deleteExercise($exerciseId);
+            $result = $this->exerciseModel->deleteExercise($exerciseId);
+
+            // If the result is an error message, show it to the user
+            if ($result && strpos($result, 'cannot delete') !== false) {
+                $_SESSION['error_message'] = $result;
+            }
+
             header('Location: /user/exercises');
             exit();
         }
@@ -166,18 +172,13 @@ class ExerciseController
         // Handle POST request for deleting a global exercise
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $exerciseId = $_POST['id'];
-
-            // Attempt to delete the exercise
             $result = $this->exerciseModel->deleteExercise($exerciseId);
 
             // If the result is an error message, show it to the user
             if ($result && strpos($result, 'cannot delete') !== false) {
                 $_SESSION['error_message'] = $result;
-                header('Location: /manage/exercises');
-                exit();
             }
 
-            // Redirect after successful deletion
             header('Location: /manage/exercises');
             exit();
         }

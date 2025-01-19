@@ -82,8 +82,6 @@ if (!isset($_SESSION['username']) || $_SESSION['type'] === 'Manager') {
                         </div>
                     </div>
 
-
-
                     <!-- Add Exercise Button -->
                     <button type="button" class="btn btn-secondary mb-3" id="addExercise">Add Exercise</button>
 
@@ -96,111 +94,14 @@ if (!isset($_SESSION['username']) || $_SESSION['type'] === 'Manager') {
             </div>
         </div>
 
-
-
         <?php require __DIR__ . '/../partials/logged_workouts_list.php'; ?>
-
-
 
         <!-------- Bootstrap JS -------->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const exercisesSection = document.getElementById('exercisesSection');
-                const addExerciseButton = document.getElementById('addExercise');
-                let exerciseCount = 1;
-
-                addExerciseButton.addEventListener('click', () => {
-                    const newExercise = document.createElement('div');
-                    newExercise.classList.add('exercise', 'mb-3', 'border', 'p-3', 'rounded');
-                    newExercise.innerHTML = `
-        <div class="row mb-2">
-            <div class="col-md-3">
-                <label for="exerciseName" class="form-label">Exercise Name:</label>
-                <select name="exercises[${exerciseCount}][name]" id="exerciseName" class="form-select" required>
-                    <option value="" disabled selected>Select an Exercise</option>
-                    <?php foreach ($allExercises as $exercise): ?>
-                            <option value="<?php echo htmlspecialchars($exercise['name']); ?>">
-                                        <?php echo htmlspecialchars($exercise['name']); ?>
-                            </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="col-md-8">
-                <h5>Sets</h5>
-                <div class="sets-section">
-                    <div class="set mb-2 d-flex align-items-center">
-                        <input type="number" name="exercises[${exerciseCount}][sets][0][reps]" class="form-control me-2" placeholder="Reps" required>
-                        <input type="number" step="0.01" name="exercises[${exerciseCount}][sets][0][weight]" class="form-control me-2" placeholder="Weight (kg)" required>
-                        <button type="button" class="btn btn-danger remove-set">Remove</button>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-secondary add-set">Add Set</button>
-            </div>
-        </div>
-        `;
-                    exercisesSection.appendChild(newExercise);
-                    exerciseCount++;
-                });
-
-                exercisesSection.addEventListener('click', (event) => {
-                    if (event.target.classList.contains('add-set')) {
-                        const setsSection = event.target.closest('.exercise').querySelector('.sets-section');
-                        const setCount = setsSection.querySelectorAll('.set').length;
-                        const exerciseIndex = event.target.closest('.exercise').querySelector('select').name.match(/\d+/)[0];
-
-                        const newSet = document.createElement('div');
-                        newSet.classList.add('set', 'mb-2', 'd-flex', 'align-items-center');
-                        newSet.innerHTML = `
-            <input type="number" name="exercises[${exerciseIndex}][sets][${setCount}][reps]" class="form-control me-2" placeholder="Reps" required>
-            <input type="number" step="0.01" name="exercises[${exerciseIndex}][sets][${setCount}][weight]" class="form-control me-2" placeholder="Weight (kg)" required>
-            <button type="button" class="btn btn-danger remove-set">Remove</button>
-            `;
-                        setsSection.appendChild(newSet);
-                    } else if (event.target.classList.contains('remove-set')) {
-                        const setsSection = event.target.closest('.sets-section');
-                        const exerciseContainer = event.target.closest('.exercise');
-                        if (setsSection.children.length === 1) {
-                            exerciseContainer.remove(); // Remove the whole exercise if only one set remains
-                        } else {
-                            event.target.closest('.set').remove(); // Remove just the set
-                        }
-                    }
-                });
-            });
-            // Add Exercise button logic to add new exercise sections
-            document.getElementById('addExerciseModal').addEventListener('click', function () {
-                var exercisesSection = document.getElementById('editExercisesSection');
-                var exerciseCount = exercisesSection.querySelectorAll('.exercise').length;
-
-                var newExercise = document.createElement('div');
-                newExercise.classList.add('exercise', 'mb-3', 'border', 'p-3', 'rounded');
-                newExercise.innerHTML = `
-            <div class="row mb-2">
-                <div class="col-md-3">
-                    <label for="exerciseName" class="form-label">Exercise Name:</label>
-                    <select name="exercises[${exerciseCount}][name]" id="exerciseName" class="form-select" required>
-                        <option value="" disabled selected>Select an Exercise</option>
-                        <!-- Populate options dynamically using JavaScript -->
-                    </select>
-                </div>
-                <div class="col-md-8">
-                    <h5>Sets</h5>
-                    <div class="sets-section">
-                        <div class="set mb-2 d-flex align-items-center">
-                            <input type="number" name="exercises[${exerciseCount}][sets][0][reps]" class="form-control me-2" placeholder="Reps" required>
-                            <input type="number" step="0.01" name="exercises[${exerciseCount}][sets][0][weight]" class="form-control me-2" placeholder="Weight (kg)" required>
-                            <button type="button" class="btn btn-danger remove-set">Remove</button>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-secondary add-set">Add Set</button>
-                </div>
-            </div>
-        `;
-                exercisesSection.appendChild(newExercise);
-            });
-
+            var allExercises = <?php echo json_encode($allExercises); ?>;
         </script>
+        <script src="/assets/js/logWorkout.js"></script>
 </body>
 
 </html>

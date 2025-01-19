@@ -1,15 +1,19 @@
-// Fill the modal with the selected exercise data
-const editButtons = document.querySelectorAll('[data-bs-toggle="modal"]');
-editButtons.forEach(button => {
-    button.addEventListener('click', function () {
-        const exerciseId = this.getAttribute('data-id');
-        const exerciseName = this.getAttribute('data-name');
+function addEditButtonListeners() {
+    const editButtons = document.querySelectorAll('[data-bs-toggle="modal"]');
+    editButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const exerciseId = this.getAttribute('data-id');
+            const exerciseName = this.getAttribute('data-name');
 
-        // Populate the fields in the modal
-        document.getElementById('exerciseId').value = exerciseId;
-        document.getElementById('editExerciseName').value = exerciseName;
+            // Populate the fields in the modal
+            document.getElementById('exerciseId').value = exerciseId;
+            document.getElementById('editExerciseName').value = exerciseName;
+        });
     });
-});
+}
+
+// Initial call to add listeners to existing buttons
+addEditButtonListeners();
 
 document.querySelector('input[name="search"]').addEventListener('input', function () {
     const searchTerm = this.value.trim();
@@ -47,6 +51,9 @@ document.querySelector('input[name="search"]').addEventListener('input', functio
                     `;
                     exerciseList.appendChild(listItem);
                 });
+
+                // Add listeners to the new edit buttons
+                addEditButtonListeners();
             } else {
                 const listItem = document.createElement('li');
                 listItem.className = 'list-group-item';

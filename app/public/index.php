@@ -21,6 +21,7 @@ require_once(__DIR__ . "/lib/Route.php");
  * Require routes
  *  Defines the routes that our application will ned
  */
+
 require_once(__DIR__ . "/routes/index.php");
 require_once(__DIR__ . "/routes/user.php");
 

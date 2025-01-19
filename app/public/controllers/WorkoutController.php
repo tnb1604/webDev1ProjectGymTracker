@@ -52,8 +52,6 @@ class WorkoutController
             $date = $_POST['date'] ?? null;
             $exercises = $_POST['exercises'] ?? [];
 
-
-
             // Validate the input
             if (empty($workout_name) || empty($date) || empty($exercises)) {
                 $_SESSION['error'] = 'Name, date, and at least one exercise are required!';
@@ -84,31 +82,36 @@ class WorkoutController
             $workoutId = $this->workoutModel->create($userId, $workout_name, $date);
 
             // Loop through each exercise and add its sets
-            foreach ($exercises as $exerciseData) {
-                // Get the exercise ID by name
-                $exerciseId = $this->workoutModel->getExerciseIdByName($exerciseData['name']);
+            try {
+                foreach ($exercises as $exerciseData) {
+                    // Get the exercise ID by name
+                    $exerciseId = $this->workoutModel->getExerciseIdByName($exerciseData['name']);
 
-                // Loop through each set for the current exercise
-                foreach ($exerciseData['sets'] as $setIndex => $set) {
-                    $reps = $set['reps'] ?? null;
-                    $weight = $set['weight'] ?? null;
+                    // Loop through each set for the current exercise
+                    foreach ($exerciseData['sets'] as $setIndex => $set) {
+                        $reps = $set['reps'] ?? null;
+                        $weight = $set['weight'] ?? null;
 
-                    // Validate set data (allow weight to be 0)
-                    if (empty($reps) || $weight === null) {
-                        $_SESSION['error'] = 'Reps and weight for each set are required!';
-                        header('Location: /user/workouts');
-                        exit();
+                        // Validate set data (allow weight to be 0)
+                        if (empty($reps) || $weight === null) {
+                            $_SESSION['error'] = 'Reps and weight for each set are required!';
+                            header('Location: /user/workouts');
+                            exit();
+                        }
+
+                        // Add the exercise and set to the workout
+                        $this->workoutModel->addExerciseToWorkout($workoutId, $exerciseId, $setIndex + 1, $reps, $weight);
                     }
-
-                    // Add the exercise and set to the workout
-                    $this->workoutModel->addExerciseToWorkout($workoutId, $exerciseId, $setIndex + 1, $reps, $weight);
                 }
+            } catch (Exception $e) {
+                $_SESSION['error'] = $e->getMessage();
+                header('Location: /user/workouts');
+                exit();
             }
 
             header('Location: /user/workouts');
             exit();
         }
-
 
         // Load the log workout page
         require(__DIR__ . '/../views/pages/log_workouts.php');

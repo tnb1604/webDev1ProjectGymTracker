@@ -58,3 +58,9 @@ _The directory that contains all relevant back end code is in the `app/public` d
 ## Good patterns
 
 For most layers of the application, it is a good idea to have a single file per entity type. I.e., currently there is a `routes/user.php` to handle user routes. If you add routes for products, adding it to `routes/product.php` would be a good idea. Similarly, there is a single file and class for the user controller and user model. New entities should generally get their own route, controller and model files.
+
+
+
+
+------------------------------------------SCRIPT AND LOGIN DETAILS BELOW-------------------------------------------------
+
