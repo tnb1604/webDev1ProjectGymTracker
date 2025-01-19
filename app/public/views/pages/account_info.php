@@ -26,8 +26,6 @@ if (!isset($_SESSION['username'])) {
                 <h3 class="card-title">Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h3>
                 <p class="card-text">Here are your account details:</p>
                 <ul class="list-group mb-4">
-                    <li class="list-group-item"><strong>User ID:</strong>
-                        <?php echo htmlspecialchars($_SESSION['user_id']); ?></li>
                     <li class="list-group-item"><strong>Username:</strong>
                         <?php echo htmlspecialchars($_SESSION['username']); ?></li>
                     <li class="list-group-item"><strong>Email:</strong>

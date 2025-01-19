@@ -13,11 +13,13 @@ $currentYear = date('Y', strtotime($currentDate));
 $firstDayOfMonth = date('Y-m-01', strtotime($currentDate));
 $lastDayOfMonth = date('Y-m-t', strtotime($currentDate));
 
-// Fetch logged workouts from database (mock data for now)
-$loggedWorkouts = [
-    '2025-02-10' => 'Workout 1',
-    '2025-01-15' => 'Workout 2',
-]; ?>
+// Fetch logged workouts from database
+$workoutModel = new WorkoutModel();
+$loggedWorkouts = $workoutModel->getByDate($_SESSION['user_id'], $firstDayOfMonth, $lastDayOfMonth);
+
+// Convert logged workouts to an associative array with dates as keys
+$loggedWorkouts = array_column($loggedWorkouts, null, 'date');
+?>
 
 <!DOCTYPE html>
 <html lang="en">

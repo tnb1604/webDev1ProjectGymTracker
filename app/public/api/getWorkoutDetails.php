@@ -1,9 +1,13 @@
 <?php
 // Include necessary files (e.g., database connection, class files)
-require_once 'models/WorkoutModel.php';// Adjust the path based on where your class is
+require_once __DIR__ . '/../lib/env.php';
+require_once __DIR__ . '/../models/WorkoutModel.php';
 
 // Assuming the class containing getWorkoutDetails is called 'WorkoutClass' and it is properly set up
 $workoutModel = new WorkoutModel();
+
+// Set the Content-Type header to application/json
+header('Content-Type: application/json');
 
 // Check if workout_id is passed via GET
 if (isset($_GET['workout_id'])) {
@@ -31,3 +35,5 @@ if (isset($_GET['workout_id'])) {
     ]);
 }
 ?>
+
+

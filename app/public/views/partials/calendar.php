@@ -1,4 +1,4 @@
-<div class="card mt-4">
+<div class="card mt-4" style="margin: 0 240px;">
     <div class="card-header bg-secondary text-white d-flex justify-content-between">
         <a href="?date=<?= date('Y-m-d', strtotime("$currentYear-$currentMonth -1 month")) ?>"
             class="btn btn-light btn-sm">&lt; Previous</a>

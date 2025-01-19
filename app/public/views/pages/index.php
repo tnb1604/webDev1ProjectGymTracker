@@ -1,4 +1,18 @@
 <?php
+// Check if the user is logged in
+// Check if the user is logged in
+if (isset($_SESSION['user_id'])) {
+    // Check the user type
+    if ($_SESSION['type'] === 'User') {
+        // Redirect to the user's dashboard
+        header('Location: /user/dashboard');
+    } elseif ($_SESSION['type'] === 'Manager') {
+        // Redirect to the manager's dashboard
+        header('Location: /management/dashboard');
+    }
+    exit;
+}
+
 
 require(__DIR__ . "/../partials/header.php");
 ?>

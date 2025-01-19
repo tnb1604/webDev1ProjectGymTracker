@@ -56,7 +56,7 @@ if (!isset($_SESSION['username']) || $_SESSION['type'] === 'Manager') {
                             <div class="row mb-2">
                                 <div class="col-md-3">
                                     <label for="exerciseName" class="form-label">Exercise Name:</label>
-                                    <select name="exercises[0][name]" class="form-select" required>
+                                    <select name="exercises[0][name]" id="exerciseName" class="form-select" required>
                                         <option value="" disabled selected>Select an Exercise</option>
                                         <?php foreach ($allExercises as $exercise): ?>
                                             <option value="<?php echo htmlspecialchars($exercise['name']); ?>">
@@ -71,7 +71,7 @@ if (!isset($_SESSION['username']) || $_SESSION['type'] === 'Manager') {
                                         <div class="set mb-2 d-flex align-items-center">
                                             <input type="number" name="exercises[0][sets][0][reps]"
                                                 class="form-control me-2" placeholder="Reps" required>
-                                            <input type="number" name="exercises[0][sets][0][weight]"
+                                            <input type="number" step="0.01" name="exercises[0][sets][0][weight]"
                                                 class="form-control me-2" placeholder="Weight (kg)" required>
                                             <button type="button" class="btn btn-danger remove-set">Remove</button>
                                         </div>
@@ -102,7 +102,7 @@ if (!isset($_SESSION['username']) || $_SESSION['type'] === 'Manager') {
 
 
 
-        <!-- Bootstrap JS -->
+        <!-------- Bootstrap JS -------->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
@@ -117,12 +117,12 @@ if (!isset($_SESSION['username']) || $_SESSION['type'] === 'Manager') {
         <div class="row mb-2">
             <div class="col-md-3">
                 <label for="exerciseName" class="form-label">Exercise Name:</label>
-                <select name="exercises[${exerciseCount}][name]" class="form-select" required>
+                <select name="exercises[${exerciseCount}][name]" id="exerciseName" class="form-select" required>
                     <option value="" disabled selected>Select an Exercise</option>
                     <?php foreach ($allExercises as $exercise): ?>
-                                                                                                <option value="<?php echo htmlspecialchars($exercise['name']); ?>">
-                                                                                                    <?php echo htmlspecialchars($exercise['name']); ?>
-                                                                                                </option>
+                            <option value="<?php echo htmlspecialchars($exercise['name']); ?>">
+                                        <?php echo htmlspecialchars($exercise['name']); ?>
+                            </option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -131,7 +131,7 @@ if (!isset($_SESSION['username']) || $_SESSION['type'] === 'Manager') {
                 <div class="sets-section">
                     <div class="set mb-2 d-flex align-items-center">
                         <input type="number" name="exercises[${exerciseCount}][sets][0][reps]" class="form-control me-2" placeholder="Reps" required>
-                        <input type="number" name="exercises[${exerciseCount}][sets][0][weight]" class="form-control me-2" placeholder="Weight (kg)" required>
+                        <input type="number" step="0.01" name="exercises[${exerciseCount}][sets][0][weight]" class="form-control me-2" placeholder="Weight (kg)" required>
                         <button type="button" class="btn btn-danger remove-set">Remove</button>
                     </div>
                 </div>
@@ -153,7 +153,7 @@ if (!isset($_SESSION['username']) || $_SESSION['type'] === 'Manager') {
                         newSet.classList.add('set', 'mb-2', 'd-flex', 'align-items-center');
                         newSet.innerHTML = `
             <input type="number" name="exercises[${exerciseIndex}][sets][${setCount}][reps]" class="form-control me-2" placeholder="Reps" required>
-            <input type="number" name="exercises[${exerciseIndex}][sets][${setCount}][weight]" class="form-control me-2" placeholder="Weight (kg)" required>
+            <input type="number" step="0.01" name="exercises[${exerciseIndex}][sets][${setCount}][weight]" class="form-control me-2" placeholder="Weight (kg)" required>
             <button type="button" class="btn btn-danger remove-set">Remove</button>
             `;
                         setsSection.appendChild(newSet);
@@ -168,7 +168,37 @@ if (!isset($_SESSION['username']) || $_SESSION['type'] === 'Manager') {
                     }
                 });
             });
+            // Add Exercise button logic to add new exercise sections
+            document.getElementById('addExerciseModal').addEventListener('click', function () {
+                var exercisesSection = document.getElementById('editExercisesSection');
+                var exerciseCount = exercisesSection.querySelectorAll('.exercise').length;
 
+                var newExercise = document.createElement('div');
+                newExercise.classList.add('exercise', 'mb-3', 'border', 'p-3', 'rounded');
+                newExercise.innerHTML = `
+            <div class="row mb-2">
+                <div class="col-md-3">
+                    <label for="exerciseName" class="form-label">Exercise Name:</label>
+                    <select name="exercises[${exerciseCount}][name]" id="exerciseName" class="form-select" required>
+                        <option value="" disabled selected>Select an Exercise</option>
+                        <!-- Populate options dynamically using JavaScript -->
+                    </select>
+                </div>
+                <div class="col-md-8">
+                    <h5>Sets</h5>
+                    <div class="sets-section">
+                        <div class="set mb-2 d-flex align-items-center">
+                            <input type="number" name="exercises[${exerciseCount}][sets][0][reps]" class="form-control me-2" placeholder="Reps" required>
+                            <input type="number" step="0.01" name="exercises[${exerciseCount}][sets][0][weight]" class="form-control me-2" placeholder="Weight (kg)" required>
+                            <button type="button" class="btn btn-danger remove-set">Remove</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary add-set">Add Set</button>
+                </div>
+            </div>
+        `;
+                exercisesSection.appendChild(newExercise);
+            });
 
         </script>
 </body>

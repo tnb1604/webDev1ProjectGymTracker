@@ -28,7 +28,13 @@ class ExerciseModel extends BaseModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
+    public function searchGlobalExercises($search_term)
+    {
+        $query = "SELECT * FROM exercise WHERE user_id IS NULL AND name LIKE ?";
+        $stmt = self::$pdo->prepare($query);
+        $stmt->execute(['%' . $search_term . '%']);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
     public function createGlobalExercise($name, $userId = null)
     {
@@ -44,7 +50,6 @@ class ExerciseModel extends BaseModel
 
         return true;
     }
-
 
     public function createUserExercise($name, $userId)
     {

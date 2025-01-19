@@ -54,8 +54,6 @@ if ($search_term) {
             <form method="GET" action="" class="d-flex">
                 <input type="text" name="search" class="form-control me-2" placeholder="Search exercises"
                     value="<?php echo htmlspecialchars($search_term); ?>">
-                <button type="submit" class="btn btn-primary me-2">Search</button>
-                <a href="/manage/exercises" class="btn btn-secondary">Reset</a>
             </form>
         </div>
 
@@ -133,21 +131,7 @@ if ($search_term) {
 
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-        <script>
-            // Fill the modal with the selected exercise data
-            const editButtons = document.querySelectorAll('[data-bs-toggle="modal"]');
-            editButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    const exerciseId = this.getAttribute('data-id');
-                    const exerciseName = this.getAttribute('data-name');
-
-                    // Populate the fields in the modal
-                    document.getElementById('exerciseId').value = exerciseId;
-                    document.getElementById('editExerciseName').value = exerciseName;
-                });
-            });
-        </script>
+        <script src="/assets/js/manage_exercises.js"></script>
 </body>
 
 </html>

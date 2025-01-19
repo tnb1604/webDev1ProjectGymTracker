@@ -135,6 +135,49 @@ class WorkoutController
         echo json_encode($result);
     }
 
+    public function updateWorkout()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $workoutId = $_POST['workout_id'];
+            $name = $_POST['workout_name'];
+            $date = $_POST['date'];
+            $exercises = $_POST['exercises'];
+
+            // Update workout details
+            $this->workoutModel->update($workoutId, $name, $date);
+
+            // Delete existing exercises for the workout
+            $this->workoutModel->deleteExercisesByWorkoutId($workoutId);
+
+            // Add updated exercises
+            foreach ($exercises as $exerciseData) {
+                $exerciseId = $this->workoutModel->getExerciseIdByName($exerciseData['name']);
+                foreach ($exerciseData['sets'] as $setIndex => $set) {
+                    $this->workoutModel->addExerciseToWorkout($workoutId, $exerciseId, $setIndex + 1, $set['reps'], $set['weight']);
+                }
+            }
+
+            header('Location: /user/workouts');
+            exit();
+        }
+    }
+
+    public function deleteWorkout()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $workoutId = $_POST['id'];
+
+            // Delete exercises associated with the workout first
+            $this->workoutModel->deleteExercisesByWorkoutId($workoutId);
+
+            // Delete the workout
+            $this->workoutModel->delete($workoutId);
+
+            header('Location: /user/workouts');
+            exit();
+        }
+    }
+
 
 
 

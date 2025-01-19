@@ -13,13 +13,14 @@ class WorkoutModel extends BaseModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getByDate($userId, $date)
+    public function getByDate($userId, $startDate, $endDate)
     {
         // Fetch workouts for the current month (or any date range)
-        $sql = "SELECT * FROM workout WHERE user_id = :user_id AND date BETWEEN :start_date AND :end_date";
+        $sql = "SELECT date FROM workout WHERE user_id = :user_id AND date BETWEEN :start_date AND :end_date";
         $stmt = self::$pdo->prepare($sql);
         $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
-        $stmt->bindParam(':date', $date, PDO::PARAM_STR);
+        $stmt->bindParam(':start_date', $startDate, PDO::PARAM_STR);
+        $stmt->bindParam(':end_date', $endDate, PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -65,6 +66,15 @@ class WorkoutModel extends BaseModel
         $stmt->bindParam(':workout_id', $workoutId, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    public function deleteExercisesByWorkoutId($workoutId)
+    {
+        $sql = "DELETE FROM workout_exercise WHERE workout_id = :workout_id";
+        $stmt = self::$pdo->prepare($sql);
+        $stmt->bindParam(':workout_id', $workoutId, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
     public function getExerciseIdByName($exerciseName)
     {
         $query = "SELECT exercise_id FROM exercise WHERE name = :name LIMIT 1";
@@ -108,21 +118,46 @@ class WorkoutModel extends BaseModel
         if ($stmt->rowCount() > 0) {
             $workout = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // Query to fetch exercises associated with the workout from workout_exercise
+            // Query to fetch exercises associated with the workout from workout_exercise and exercise
             $exerciseQuery = "
-            SELECT set_number, reps, weight
-            FROM workout_exercise
-            WHERE workout_id = :workout_id";
+            SELECT we.set_number, we.reps, we.weight, e.exercise_id, e.name AS exercise_name
+            FROM workout_exercise we
+            JOIN exercise e ON we.exercise_id = e.exercise_id
+            WHERE we.workout_id = :workout_id";
 
             $stmt = self::$pdo->prepare($exerciseQuery);
             $stmt->bindParam(':workout_id', $workoutId, PDO::PARAM_INT);
             $stmt->execute();
             $exercises = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+            // Group sets by exercise
+            $groupedExercises = [];
+            foreach ($exercises as $exercise) {
+                $exerciseName = $exercise['exercise_name'];
+                if (!isset($groupedExercises[$exerciseName])) {
+                    $groupedExercises[$exerciseName] = [
+                        'exercise_name' => $exerciseName,
+                        'sets' => []
+                    ];
+                }
+                $groupedExercises[$exerciseName]['sets'][] = [
+                    'set_number' => $exercise['set_number'],
+                    'reps' => $exercise['reps'],
+                    'weight' => $exercise['weight']
+                ];
+            }
+
+            // Fetch all available exercises
+            $allExercisesQuery = "SELECT name FROM exercise";
+            $stmt = self::$pdo->prepare($allExercisesQuery);
+            $stmt->execute();
+            $allExercises = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
             return [
                 'success' => true,
                 'workout' => $workout,
-                'exercises' => $exercises,
+                'exercises' => array_values($groupedExercises),
+                'allExercises' => $allExercises
             ];
         } else {
             return [

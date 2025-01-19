@@ -102,11 +102,6 @@ Route::add('/getAllExercises', function () {
     $controller->getAllExercises();
 });
 
-/*Route::add('/user/workouts', function () {
-    $controller = new WorkoutController();
-    $controller->logWorkout();
-});*/
-
 Route::add('/user/workouts/submit', function () {
     $controller = new WorkoutController();
     $controller->logWorkout();
@@ -116,4 +111,19 @@ Route::add('/user/workouts/submit', function () {
 Route::add('/api/getWorkoutDetails', function () {
     $controller = new WorkoutController();
     $controller->getWorkoutDetails(); // Fetch workout details via AJAX
+});
+
+Route::add('/user/workouts/update', function () {
+    $controller = new WorkoutController();
+    $controller->updateWorkout();
+}, 'post');
+
+Route::add('/user/workouts/delete', function () {
+    $controller = new WorkoutController();
+    $controller->deleteWorkout();
+}, 'post');
+
+// New route for search API
+Route::add('/api/searchGlobalExercises.php', function () {
+    require __DIR__ . '/../api/searchGlobalExercises.php';
 });

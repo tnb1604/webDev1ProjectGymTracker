@@ -1,4 +1,4 @@
-document.getElementById('prev-month').addEventListener('click', function () {
+/*document.getElementById('prev-month').addEventListener('click', function () {
     alert('Previous month logic goes here.');
 });
 
@@ -12,3 +12,4 @@ document.querySelectorAll('.calendar-day').forEach(day => {
         alert('Clicked on ' + selectedDate);
     });
 });
+*/
