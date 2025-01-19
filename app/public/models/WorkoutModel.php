@@ -27,22 +27,29 @@ class WorkoutModel extends BaseModel
 
     public function create($userId, $name, $date)
     {
-        $sql = "INSERT INTO workout (user_id, name, date) VALUES (:user_id, :name, :date)";
-        $stmt = self::$pdo->prepare($sql);
-        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
-        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-        $stmt->bindParam(':date', $date, PDO::PARAM_STR);
+        try {
+            if (strlen($name) > 30) {
+                throw new Exception('Workout name is too long.');
+            }
+            $sql = "INSERT INTO workout (user_id, name, date) VALUES (:user_id, :name, :date)";
+            $stmt = self::$pdo->prepare($sql);
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+            $stmt->bindParam(':date', $date, PDO::PARAM_STR);
 
-        // Execute the query
-        if ($stmt->execute()) {
-            // Return the last inserted ID
-            return self::$pdo->lastInsertId();
-        } else {
-            // Handle the error if needed (optional)
+            // Execute the query
+            if ($stmt->execute()) {
+                // Return the last inserted ID
+                return self::$pdo->lastInsertId();
+            } else {
+                // Handle the error if needed (optional)
+                return false;
+            }
+        } catch (Exception $e) {
+            $_SESSION['error'] = $e->getMessage();
             return false;
         }
     }
-
 
     public function addExerciseToWorkout($workoutId, $exerciseId, $setNumber, $reps, $weight)
     {
@@ -62,7 +69,6 @@ class WorkoutModel extends BaseModel
         $stmt->bindParam(':weight', $weight);
         return $stmt->execute();
     }
-
 
     public function delete($workoutId)
     {
@@ -94,12 +100,20 @@ class WorkoutModel extends BaseModel
 
     public function update($workoutId, $name, $date)
     {
-        $sql = "UPDATE workout SET name = :name, date = :date WHERE workout_id = :workout_id";
-        $stmt = self::$pdo->prepare($sql);
-        $stmt->bindParam(':workout_id', $workoutId, PDO::PARAM_INT);
-        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-        $stmt->bindParam(':date', $date, PDO::PARAM_STR);
-        return $stmt->execute();
+        try {
+            if (strlen($name) > 30) {
+                throw new Exception('Workout name is too long.');
+            }
+            $sql = "UPDATE workout SET name = :name, date = :date WHERE workout_id = :workout_id";
+            $stmt = self::$pdo->prepare($sql);
+            $stmt->bindParam(':workout_id', $workoutId, PDO::PARAM_INT);
+            $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+            $stmt->bindParam(':date', $date, PDO::PARAM_STR);
+            return $stmt->execute();
+        } catch (Exception $e) {
+            $_SESSION['error'] = $e->getMessage();
+            return false;
+        }
     }
 
     public function get($workoutId)
@@ -134,6 +148,18 @@ class WorkoutModel extends BaseModel
             $stmt->bindParam(':workout_id', $workoutId, PDO::PARAM_INT);
             $stmt->execute();
             $exercises = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (empty($exercises)) {
+                $_SESSION['error'] = "No exercises found. Please add some exercises first.";
+                return [
+                    'success' => false,
+                    'message' => $_SESSION['error'],
+                    'workout' => $workout,
+                    'exercises' => [],
+                    'allExercises' => []
+                ];
+            }
+
 
             // Group sets by exercise
             $groupedExercises = [];

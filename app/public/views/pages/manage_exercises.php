@@ -66,7 +66,7 @@ if ($search_term) {
                 <form method="POST" action="/addGlobalExercise">
                     <div class="mb-3">
                         <label for="exerciseName" class="form-label">Exercise Name</label>
-                        <input type="text" class="form-control" id="exerciseName" name="name" required>
+                        <input type="text" class="form-control" required maxlength="40" id="exerciseName" name="name" required>
                     </div>
                     <button type="submit" class="btn btn-success">Add Exercise</button>
                 </form>
@@ -118,7 +118,7 @@ if ($search_term) {
                         <form action="/editGlobalExercise" method="POST" id="editExerciseForm">
                             <div class="mb-3">
                                 <label for="editExerciseName" class="form-label">Exercise Name:</label>
-                                <input type="text" id="editExerciseName" name="name" class="form-control"
+                                <input type="text" id="editExerciseName" required maxlength="40"  name="name" class="form-control"
                                     placeholder="Enter new exercise name" required>
                                 <input type="hidden" id="exerciseId" name="id">
                             </div>

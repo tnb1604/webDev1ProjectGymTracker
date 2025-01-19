@@ -70,8 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const value = event.target.value;
             const errorElementId = `${event.target.id}-error`; // Unique ID for the error message
 
-            // Check if the value length exceeds 5
-            if (value.length > 5) {
+            // Check if the value length exceeds 7
+            if (value.length > 7) {
                 // Find or create an error message element
                 let errorElement = document.getElementById(errorElementId);
                 if (!errorElement) {

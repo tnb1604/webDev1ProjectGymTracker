@@ -91,6 +91,14 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         xhr.send();
+
+        // Check for error message in session and display it
+        var errorMessage = document.getElementById('editWorkoutError').dataset.errorMessage;
+        if (errorMessage) {
+            var errorContainer = document.getElementById('editWorkoutError');
+            errorContainer.textContent = errorMessage;
+            errorContainer.classList.remove('d-none');
+        }
     });
 
     // Add event listener for add set and remove set buttons
@@ -164,8 +172,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const value = event.target.value;
             const errorElementId = `${event.target.id}-error`; // Unique ID for the error message
     
-            // Check if the value length exceeds 10
-            if (value.length > 5) {
+            // Check if the value length exceeds 7
+            if (value.length > 7) {
                 // Find or create an error message element
                 let errorElement = document.getElementById(errorElementId);
                 if (!errorElement) {
@@ -188,5 +196,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-    
 });

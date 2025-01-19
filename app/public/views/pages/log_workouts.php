@@ -41,7 +41,7 @@ if (!isset($_SESSION['username']) || $_SESSION['type'] === 'Manager') {
                     <!-- Workout Name Input -->
                     <div class="mb-3">
                         <label for="workoutName" class="form-label">Workout Name:</label>
-                        <input type="text" id="workoutName" placeholder="e.g. Push Day" name="workout_name"
+                        <input type="text" required maxlength="30"  id="workoutName" placeholder="e.g. Push Day" name="workout_name"
                             class="form-control" required>
                     </div>
 
@@ -57,7 +57,7 @@ if (!isset($_SESSION['username']) || $_SESSION['type'] === 'Manager') {
                         <div class="exercise mb-3 border p-3 rounded">
                             <div class="row mb-2">
                                 <div class="col-md-3">
-                                    <label for="exerciseName" class="form-label">Exercise Name:</label>
+                                    <label for="exerciseName" class="form-label" >Exercise Name:</label>
                                     <select name="exercises[0][name]" id="exerciseName" class="form-select" required>
                                         <option value="" disabled selected>Select an Exercise</option>
                                         <?php foreach ($allExercises as $exercise): ?>

@@ -135,6 +135,15 @@ class WorkoutController
         $model = new WorkoutModel(); // Instantiate your WorkoutModel
         $result = $model->getWorkoutDetails($workoutId);
 
+        // Check if the result indicates success
+        if (!$result['success']) {
+            echo json_encode([
+                'success' => false,
+                'error' => $result['error'] ?? 'Failed to fetch workout details.'
+            ]);
+            return;
+        }
+
         // Return the result as a JSON response
         echo json_encode($result);
     }
@@ -145,7 +154,7 @@ class WorkoutController
             $workoutId = $_POST['workout_id'];
             $name = $_POST['workout_name'];
             $date = $_POST['date'];
-            $exercises = $_POST['exercises'];
+            $exercises = $_POST['exercises'] ?? [];
 
             // Update workout details
             $this->workoutModel->update($workoutId, $name, $date);
@@ -153,11 +162,13 @@ class WorkoutController
             // Delete existing exercises for the workout
             $this->workoutModel->deleteExercisesByWorkoutId($workoutId);
 
-            // Add updated exercises
-            foreach ($exercises as $exerciseData) {
-                $exerciseId = $this->workoutModel->getExerciseIdByName($exerciseData['name']);
-                foreach ($exerciseData['sets'] as $setIndex => $set) {
-                    $this->workoutModel->addExerciseToWorkout($workoutId, $exerciseId, $setIndex + 1, $set['reps'], $set['weight']);
+            // Add updated exercises if any
+            if (!empty($exercises)) {
+                foreach ($exercises as $exerciseData) {
+                    $exerciseId = $this->workoutModel->getExerciseIdByName($exerciseData['name']);
+                    foreach ($exerciseData['sets'] as $setIndex => $set) {
+                        $this->workoutModel->addExerciseToWorkout($workoutId, $exerciseId, $setIndex + 1, $set['reps'], $set['weight']);
+                    }
                 }
             }
 

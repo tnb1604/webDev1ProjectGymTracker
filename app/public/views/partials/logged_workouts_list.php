@@ -46,6 +46,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <!-- Error Message Container -->
+                <div id="editWorkoutError" class="alert alert-danger d-none" role="alert">
+                    <!-- Error message will be populated dynamically -->
+                </div>
                 <form action="/user/workouts/update" method="POST" id="editWorkoutForm">
                     <input type="hidden" name="workout_id" id="editWorkoutId">
 
@@ -62,7 +66,7 @@
                     <div class="mb-3">
                         <label for="editWorkoutName" class="form-label">Workout Name:</label>
                         <input type="text" id="editWorkoutName" name="workout_name" class="form-control" value=""
-                            required>
+                            required maxlength="30">
                     </div>
 
                     <!-- Date Input -->

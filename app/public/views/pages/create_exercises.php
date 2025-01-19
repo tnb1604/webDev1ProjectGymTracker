@@ -63,7 +63,7 @@ if ($error_message) {
                 <form action="/addExercise" method="POST" class="needs-validation" id="createExerciseForm" novalidate>
                     <div class="mb-3">
                         <label for="name" class="form-label">Exercise Name:</label>
-                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter exercise name" required>
+                        <input type="text" id="name" required maxlength="40"  name="name" class="form-control" placeholder="Enter exercise name" required>
                         <div class="invalid-feedback" id="nameError">Please enter an exercise name.</div>
                     </div>
                     <button type="submit" class="btn btn-success">Add Exercise</button>
@@ -124,7 +124,7 @@ if ($error_message) {
                         <form action="/editExercise" method="POST" id="editExerciseForm">
                             <div class="mb-3">
                                 <label for="exerciseName" class="form-label">Exercise Name:</label>
-                                <input type="text" id="exerciseName" name="name" class="form-control" required>
+                                <input type="text" id="exerciseName" required maxlength="40" name="name" class="form-control" required>
                                 <input type="hidden" id="exerciseId" name="id">
                             </div>
                             <button type="submit" class="btn btn-primary">Save Changes</button>
