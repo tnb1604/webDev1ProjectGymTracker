@@ -1,25 +1,3 @@
-
-------------------------------------------LOGIN DETAILS-------------------------------------------------
-
--Manager
-username: dnb
-password: dnb
-
-
--User (examples, since there are multiple)
-username: ye
-password: ye
-
-username: mishi
-password: mishi
-
-most of the usernames are the same as the password for simplicity of remembering.
-you can also register for a new account on my website, only as a User.
-
-
-------------------------------------------SCRIPT FOR DATABASE (in case the script file doesnt load or something)-------------------------------------------------
-
-
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
@@ -326,6 +304,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-
-
