@@ -162,10 +162,31 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('editWorkoutModal').addEventListener('input', (event) => {
         if (event.target.type === 'number') {
             const value = event.target.value;
-            if (value.length > 10) {
-                alert('The number is too long.');
-                event.target.value = '';
+            const errorElementId = `${event.target.id}-error`; // Unique ID for the error message
+    
+            // Check if the value length exceeds 10
+            if (value.length > 5) {
+                // Find or create an error message element
+                let errorElement = document.getElementById(errorElementId);
+                if (!errorElement) {
+                    errorElement = document.createElement('div');
+                    errorElement.id = errorElementId;
+                    errorElement.style.color = 'red';
+                    errorElement.style.fontSize = '0.9em';
+                    event.target.parentNode.appendChild(errorElement); // Append error message after the input
+                }
+    
+                // Set the error message and clear the invalid input
+                errorElement.textContent = 'The number is too long. Please enter a valid number.';
+                event.target.value = ''; // Clear the input
+            } else {
+                // Remove the error message if the input is valid
+                const existingErrorElement = document.getElementById(errorElementId);
+                if (existingErrorElement) {
+                    existingErrorElement.remove();
+                }
             }
         }
     });
+    
 });

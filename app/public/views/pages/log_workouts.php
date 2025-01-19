@@ -31,9 +31,11 @@ if (!isset($_SESSION['username']) || $_SESSION['type'] === 'Manager') {
 
                     <!-- for debugging -->
                     <?php if (isset($_SESSION['error'])): ?>
-                        <div class="alert alert-danger">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <?php echo $_SESSION['error']; ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
+                        <?php unset($_SESSION['error']); // Unset the error after displaying ?>
                     <?php endif; ?>
 
                     <!-- Workout Name Input -->
