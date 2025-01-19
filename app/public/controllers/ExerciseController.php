@@ -85,8 +85,15 @@ class ExerciseController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $exerciseName = trim($_POST['name']);
             if (empty($exerciseName)) {
-                echo "Error: Exercise name cannot be empty!";
-                return;
+                $_SESSION['error_message'] = "Error: Exercise name cannot be empty!";
+                header('Location: /user/exercises');
+                exit();
+            }
+
+            if (strlen($exerciseName) > 255) {
+                $_SESSION['error_message'] = "Error: Exercise name is too long!";
+                header('Location: /user/exercises');
+                exit();
             }
 
             $userId = $_SESSION['user_id'];
@@ -127,8 +134,15 @@ class ExerciseController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $exerciseName = trim($_POST['name']);
             if (empty($exerciseName)) {
-                echo "Error: Exercise name cannot be empty!";
-                return;
+                $_SESSION['error_message'] = "Error: Exercise name cannot be empty!";
+                header('Location: /user/exercises');
+                exit();
+            }
+
+            if (strlen($exerciseName) > 255) {
+                $_SESSION['error_message'] = "Error: Exercise name is too long!";
+                header('Location: /user/exercises');
+                exit();
             }
 
             $this->exerciseModel->updateExercise($exerciseId, $exerciseName);
@@ -150,8 +164,15 @@ class ExerciseController
             $exerciseName = trim($_POST['name']);
 
             if (empty($exerciseName)) {
-                echo "Error: Exercise name cannot be empty!";
-                return;
+                $_SESSION['error_message'] = "Error: Exercise name cannot be empty!";
+                header('Location: /manage/exercises');
+                exit();
+            }
+
+            if (strlen($exerciseName) > 255) {
+                $_SESSION['error_message'] = "Error: Exercise name is too long!";
+                header('Location: /manage/exercises');
+                exit();
             }
 
             // Create global exercise with user_id set to NULL (since it's global)
@@ -199,8 +220,15 @@ class ExerciseController
             $exerciseName = trim($_POST['name']);
 
             if (empty($exerciseName)) {
-                echo "Error: Exercise name cannot be empty!";
-                return;
+                $_SESSION['error_message'] = "Error: Exercise name cannot be empty!";
+                header('Location: /manage/exercises');
+                exit();
+            }
+
+            if (strlen($exerciseName) > 255) {
+                $_SESSION['error_message'] = "Error: Exercise name is too long!";
+                header('Location: /manage/exercises');
+                exit();
             }
 
             // Update the global exercise
